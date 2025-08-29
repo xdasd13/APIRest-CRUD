@@ -28,7 +28,6 @@ CREATE TABLE vehiculos (
 ### ⚙️ Configuración
 Crear archivo .env:
 ```
-env
 PORT=3000
 DB_HOST=localhost
 DB_USER=root
