@@ -98,6 +98,30 @@ app.delete('/vehiculos/:id', async (req, res) => {
   }
 });
 
+//Buscar
+app.get('/vehiculos/buscar/:placa', async (req, res) => {
+  const {placa} = req.params;
+
+  if (!placa) {
+    return res.status(400).json({error: "la placa es requerida para su busqueda"});   
+  }
+
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM vehiculos WHERE placa = ?',
+      [placa]
+    );
+
+    if(rows.length === 0) {
+      return res.status(404).json({success: false, message: "No se encontro ningún vehiculo con esa placa"});
+    }
+
+    res.status(200).json({success: true, data: rows[0]});
+  } catch (error) {
+    handDbError(res, error);
+  }
+});
+
 
 //Inicar servidor
 app.listen(port, () => {
